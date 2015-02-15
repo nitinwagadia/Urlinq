@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="PrimaryColor">#0A0909</color>
+    <color name="PrimaryColorDark">#0A0909</color>
+    <color name="searchTextColor">#BDBDBD</color>
+    <color name="SigninTextColor">#999999</color>
+    <color name="SlidingTabColor">#2CC185</color>
+    <color name="NavigationRecyclerViewColor">#2D2D2D</color>
+    
+</resources>
