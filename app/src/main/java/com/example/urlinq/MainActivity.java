@@ -1,5 +1,5 @@
 package com.example.urlinq;
-
+//test of Verion control
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -178,11 +178,10 @@ public class MainActivity extends ActionBarActivity {
             InputStream in;
             BufferedReader reader;
             HttpURLConnection con;
-            String userClubs = "", userClasses = "", data = "";
+            String userClubs = "", userClasses = "", data;
 
             try {
                 url = new URL(params[0]);
-                con = null;
                 con = (HttpURLConnection) url.openConnection();
                 con.connect();
                 in = con.getInputStream();
@@ -231,8 +230,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void result) {
 
-
-            return;
         }
     }
 
