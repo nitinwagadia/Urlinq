@@ -1,5 +1,6 @@
 package com.example.urlinq;
 //test of Verion control
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,11 +38,11 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static List<RecyclerViewData> listdata;
     private Toolbar toolbar;
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerView;
     private List<HomeRecyclerViewData> data;
-    public static List<RecyclerViewData> listdata;
     private SearchView searchView;
 
     @Override
@@ -80,6 +83,37 @@ public class MainActivity extends ActionBarActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_drawer_start);
         drawerFragment.setUp(drawerlayout, toolbar);
+
+        //findViewById(R.id.fab_expand_menu_button).;
+
+
+        (findViewById(R.id.action_a)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
+                v.startAnimation(animation);
+                Intent i = new Intent(MainActivity.this, School.class);
+                startActivity(i);
+            }
+        });
+
+
+        (findViewById(R.id.action_b)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
+                v.startAnimation(animation);
+            }
+        });
+
+
+        (findViewById(R.id.action_c)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
+                v.startAnimation(animation);
+            }
+        });
 
     }
 
