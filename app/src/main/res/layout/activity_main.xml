@@ -1,6 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,69 +18,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/FrameLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:context="com.example.urlinq.MainActivity">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/HomerecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
-                <com.getbase.floatingactionbutton.FloatingActionsMenu
-                    android:id="@+id/multiple_actions"
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    fab:fab_addButtonColorNormal="@color/white"
-                    fab:fab_addButtonColorPressed="@color/white_pressed"
-                    fab:fab_addButtonPlusIconColor="@color/half_black"
-                    fab:fab_labelStyle="@style/menu_labels_style">
+                    android:layout_height="wrap_content">
 
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/action_a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext"
-                        app:fab_colorNormal="@color/pink"
-                        fab:fab_colorPressed="@color/white_pressed"
-                        fab:fab_title="Action A" />
+                    <com.example.customviews.CustomViewPager
+                        android:id="@+id/customViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/action_b"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/dolphin"
-                        fab:fab_colorNormal="@color/SlidingTabColor"
-                        fab:fab_colorPressed="@color/white_pressed"
-                        fab:fab_title="Notification" />
 
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/action_c"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/gorilla"
-                        fab:fab_colorNormal="@color/white"
-                        fab:fab_colorPressed="@color/white_pressed"
-                        fab:fab_title="Planner" />
+                    <com.example.customviews.CustomSlidingTabLayout
+                        android:id="@+id/customSlidingTabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/action_d"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/cat"
-                        fab:fab_colorNormal="@color/white"
-                        fab:fab_colorPressed="@color/white_pressed"
-                        fab:fab_title="Action D" />
 
-                </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-            </FrameLayout>
+                </FrameLayout>
+            </LinearLayout>
 
             <fragment
                 android:id="@+id/fragment_drawer_start"
@@ -92,13 +51,6 @@
                 app:layout="@layout/fragment_navigation_drawer"
                 tools:layout="@layout/fragment_navigation_drawer" />
         </android.support.v4.widget.DrawerLayout>
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-    </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

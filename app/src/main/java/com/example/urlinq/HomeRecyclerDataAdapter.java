@@ -11,14 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.urlinq.HomeRecyclerDataAdapter.HomeRecyclerViewHolder;
 import com.example.urlinq.model.HomeRecyclerViewData;
 
 import java.util.Collections;
 import java.util.List;
 
 public class HomeRecyclerDataAdapter extends
-        RecyclerView.Adapter<HomeRecyclerViewHolder> {
+        RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
     List<HomeRecyclerViewData> data = Collections.emptyList();
     Context context;
     LayoutInflater inflater;
@@ -30,28 +31,61 @@ public class HomeRecyclerDataAdapter extends
     }
 
     @Override
-    public HomeRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.card_layout, parent, false);
-        HomeRecyclerViewHolder holder = new HomeRecyclerViewHolder(view);
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        if (i == TYPE_ITEM) {
+            inflater = LayoutInflater.from(parent.getContext());
+            View view = inflater.inflate(R.layout.card_layout, parent, false);
+            HomeRecyclerViewHolder holder = new HomeRecyclerViewHolder(view);
+            //return holder;
+            return holder;
+        } else if (i == TYPE_HEADER) {
+            inflater = LayoutInflater.from(parent.getContext());
+            View view = inflater.inflate(R.layout.header, parent, false);
+            HomeRecyclerViewHeaderHolder headerHolder = new HomeRecyclerViewHeaderHolder(view);
+            return headerHolder;
+
+        }
+        return null;
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
     @Override
-    public void onBindViewHolder(HomeRecyclerViewHolder holder, int position) {
-        HomeRecyclerViewData current = data.get(position);
-        holder.image.setImageResource(current.getImageId());
-        holder.title1.setText(current.getTextTitle1());
-        holder.title2.setText(current.getTextTitle2());
-        holder.title3.setText(current.getTextTitle3());
-        holder.title4.setText(current.getTextTitle4());
-        holder.contents.setText(current.getContents());
+    public int getItemViewType(int position) {
+        if (isPositionHeader(position))
+            return TYPE_HEADER;
 
+        return TYPE_ITEM;
+    }
+
+    private boolean isPositionHeader(int position) {
+        return position == 0;
+    }
+
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HomeRecyclerViewHolder) {
+            HomeRecyclerViewData current = data.get(position - 1);
+            ((HomeRecyclerViewHolder) holder).image.setImageResource(current.getImageId());
+            ((HomeRecyclerViewHolder) holder).title1.setText(current.getTextTitle1());
+            ((HomeRecyclerViewHolder) holder).title2.setText(current.getTextTitle2());
+            ((HomeRecyclerViewHolder) holder).title3.setText(current.getTextTitle3());
+            ((HomeRecyclerViewHolder) holder).title4.setText(current.getTextTitle4());
+            ((HomeRecyclerViewHolder) holder).contents.setText(current.getContents());
+        } else if (holder instanceof HomeRecyclerViewHeaderHolder) {
+
+        }
+    }
+
+    class HomeRecyclerViewHeaderHolder extends RecyclerView.ViewHolder {
+
+        public HomeRecyclerViewHeaderHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     class HomeRecyclerViewHolder extends RecyclerView.ViewHolder implements
@@ -89,11 +123,12 @@ public class HomeRecyclerDataAdapter extends
                         .show();
             } else {
                 Toast.makeText(context,
-                        "Data is " + data.get(getPosition()).getContents(),
+                        "Data is " + data.get(getPosition() - 1).getContents(),
                         Toast.LENGTH_SHORT).show();
             }
 
         }
+
 
     }
 

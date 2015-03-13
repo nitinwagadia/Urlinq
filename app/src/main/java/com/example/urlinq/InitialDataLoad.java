@@ -20,18 +20,16 @@ import com.example.retrievedata.HandleUserClubs;
 import com.example.urlinq.model.RecyclerViewData;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InitialDataLoad extends Activity {
+    public static List<RecyclerViewData> listdata;
     Button b;
     EditText username, password;
-    public static List<RecyclerViewData> listdata;
     String userClass = "https://urlinq.com/urlinqyii/api/getUserClasses/?user_id=7&token=12435362";
     String userClubs = "https://urlinq.com/urlinqyii/api/getUserClubs/?user_id=7&token=12435362";
 
@@ -119,7 +117,7 @@ public class InitialDataLoad extends Activity {
             String userClubs = "", userClasses = "", data = "";
 
             try {
-                url = new URL(params[0]);
+              /*  url = new URL(params[0]);
                 con = null;
                 con = (HttpURLConnection) url.openConnection();
                 con.connect();
@@ -145,6 +143,7 @@ public class InitialDataLoad extends Activity {
                 Log.i("UserClassesData Recieved is<<<<<<---->>>>>> ",
                         userClasses);
                 Log.i("UserClubsData Recieved is<<<<<<---->>>>>> ", userClubs);
+                */
 
                 recyclerViewData = new RecyclerViewData("MY CLASSES");
                 listdata.add(recyclerViewData);
@@ -158,11 +157,11 @@ public class InitialDataLoad extends Activity {
                 HandleUserClubs uc = new HandleUserClubs(userClubs, listdata);
                 listdata = uc.ParseJson();
 
-                recyclerViewData = new RecyclerViewData("MY TEAMS");
-                listdata.add(recyclerViewData);
+                //recyclerViewData = new RecyclerViewData("MY TEAMS");
+                //listdata.add(recyclerViewData);
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

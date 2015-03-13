@@ -1,39 +1,33 @@
 package com.example.urlinq;
 //test of Verion control
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Visibility;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.retrievedata.HandleUserClasses;
-import com.example.retrievedata.HandleUserClubs;
+import com.example.customviews.CustomSlidingTabLayout;
+import com.example.customviews.CustomViewPager;
 import com.example.urlinq.model.HomeRecyclerViewData;
 import com.example.urlinq.model.RecyclerViewData;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
@@ -41,14 +35,15 @@ public class MainActivity extends ActionBarActivity {
     public static List<RecyclerViewData> listdata;
     private Toolbar toolbar;
     private DrawerLayout drawerlayout;
-    private RecyclerView recyclerView;
     private List<HomeRecyclerViewData> data;
     private SearchView searchView;
-
+    private CustomSlidingTabLayout customSlidingTabLayout;
+    private int colors[] = {android.R.color.holo_purple, android.R.color.holo_orange_dark, android.R.color.holo_blue_dark, android.R.color.holo_red_light};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupWindowAnimations();
 
         searchView = (SearchView) findViewById(R.id.searchView1);
         searchView.setQueryHint("Search for classes,clubs and people");
@@ -64,14 +59,6 @@ public class MainActivity extends ActionBarActivity {
         searchText.setTextColor(getResources()
                 .getColor(R.color.searchTextColor));
 
-
-        // Home Screen Set up
-        recyclerView = (RecyclerView) findViewById(R.id.HomerecyclerView);
-        HomeRecyclerDataAdapter adapter = new HomeRecyclerDataAdapter(this, getHomeData());
-        recyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
-
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,36 +71,33 @@ public class MainActivity extends ActionBarActivity {
                 .findFragmentById(R.id.fragment_drawer_start);
         drawerFragment.setUp(drawerlayout, toolbar);
 
-        //findViewById(R.id.fab_expand_menu_button).;
+        setCustomViewPager();
+
+    }
+
+    private void setupWindowAnimations() {
+        Explode explode = new Explode();
+        explode.setDuration(1000);
+
+        getWindow().setExitTransition(explode);
+
+        Fade fade = new Fade(Visibility.MODE_IN);
+        fade.setDuration(500);
+        getWindow().setReenterTransition(fade);
+    }
+
+    private void setCustomViewPager() {
 
 
-        (findViewById(R.id.action_a)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
-                v.startAnimation(animation);
-                Intent i = new Intent(MainActivity.this, School.class);
-                startActivity(i);
-            }
-        });
+        customSlidingTabLayout = (CustomSlidingTabLayout) findViewById(R.id.customSlidingTabLayout);
+        customSlidingTabLayout.setCustomTabView(R.layout.custom_sliding_tab_layout, R.id.TabText);
+        customSlidingTabLayout.setDistributeEvenly(true);
+        CustomViewPager customViewPager = (CustomViewPager) findViewById(R.id.customViewPager);
+        customViewPager.setAdapter(new MyHomePagerAdapter(getSupportFragmentManager()));
+        customSlidingTabLayout.setCustomTabView(R.layout.custom_sliding_tab_layout, R.id.TabText);
+        customSlidingTabLayout.setSelectedIndicatorColors(colors);
+        customSlidingTabLayout.setViewPager(customViewPager);
 
-
-        (findViewById(R.id.action_b)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
-                v.startAnimation(animation);
-            }
-        });
-
-
-        (findViewById(R.id.action_c)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.translate_floating_button);
-                v.startAnimation(animation);
-            }
-        });
 
     }
 
@@ -129,30 +113,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private List<HomeRecyclerViewData> getHomeData() {
-        data = new ArrayList<HomeRecyclerViewData>();
-        int images[] = {R.drawable.cat, R.drawable.chicken, R.drawable.cow,
-                R.drawable.dolphin, R.drawable.dog};
-        String title1[] = {"Cat", "Chicken", "Cow", "Crab", "Dog"};
-        String title2[] = {"Meowwww", "Puck PUCK", "MOWWWWWWWWW", "Tick Tick",
-                "Bow wowwwwwwww"};
-        String title3[] = {"now", "now", "now", "now", "now"};
-        String title4[] = {"Lecture of Cat", "Lecture of Chicken",
-                "Lecture of Cow", "Lecture of Crab", "Lecture of Dog"};
-        String contents[] = {
-                "I am CAt and i meow I am CAt and i meowI am CAt and i meowI am CAt and i meowI am CAt and i meowI am CAt and i meow",
-                "I am Chicken and i puck puck I am Chicken and i puck puck I am Chicken and i puck puck I am Chicken and i puck puck ",
-                "I am Cow and i mow I am Cow and i mow I am Cow and i mow I am Cow and i mowI am Cow and i mow I am Cow and i mow",
-                "I am a cran and i tick tock I am a cran and i tick tock I am a cran and i tick tock I am a cran and i tick tockI am a cran",
-                "I am a dog and i bow wow I am a dog and i bow wow I am a dog and i bow wow I am a dog and i bow wowI am a dog and i bow wow "};
-        for (int i = 0; i < title1.length; i++) {
-            HomeRecyclerViewData current;
-            current = new HomeRecyclerViewData(images[i], title1[i], title2[i],
-                    title3[i], title4[i], contents[i]);
-            data.add(current);
-        }
-        return data;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,7 +134,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class ListData extends AsyncTask<String, Integer, Void> {
+   /* class ListData extends AsyncTask<String, Integer, Void> {
 
         public boolean CheckConnection() {
             boolean flag = false;
@@ -266,5 +226,64 @@ public class MainActivity extends ActionBarActivity {
 
         }
     }
+*/
+
+    private class MyHomePagerAdapter extends FragmentPagerAdapter {
+
+        String tabs[] = {"Home", "Events", "Notification", "Profile"};
+
+        public MyHomePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+
+            switch (position) {
+                case 0:
+                    HomeFeed fragment = HomeFeed.getInstance(position);
+                    return fragment;
+
+                case 1:
+                    EventsPage eventsPage = EventsPage.getInstance(position);
+                    return eventsPage;
+
+                case 2:
+                    NotificationsPage notificationsPage = NotificationsPage.getInstance(position);
+                    return notificationsPage;
+
+                case 3:
+                    ProfilePage profilePage = ProfilePage.getInstance(position);
+                    return profilePage;
+            }
+
+            return null;
+        }
+
+
+        @Override
+        public int getCount() {
+            return tabs.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // TODO Auto-generated method stub
+            int drawable[] = {R.drawable.cat, R.drawable.cow, R.drawable.gorilla, R.drawable.dog};
+            Drawable icon = getResources().getDrawable(drawable[position]);
+            icon.setBounds(0, 0, 40, 40);
+            SpannableString spannableString = new SpannableString(" ");
+            ImageSpan imageSpan = new ImageSpan(icon);
+            spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannableString;
+
+            // return tabs[position];
+
+        }
+
+
+    }
+
 
 }

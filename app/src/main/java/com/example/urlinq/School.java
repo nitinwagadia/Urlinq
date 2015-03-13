@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +22,12 @@ public class School extends ActionBarActivity {
     private ViewPager mPager;
     private Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.school_layout);
+        setupWindowAnimations();
         toolbar = (Toolbar) findViewById(R.id.schooltoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -44,6 +47,15 @@ public class School extends ActionBarActivity {
         });
     }
 
+    // Animation
+    private void setupWindowAnimations() {
+        Explode explode = new Explode();
+        explode.setDuration(500);
+
+        getWindow().setEnterTransition(explode);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -55,6 +67,37 @@ public class School extends ActionBarActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class MyFragment extends Fragment {
+
+        private TextView textView;
+
+        public static MyFragment getInstance(int position) {
+            MyFragment myFragment = new MyFragment();
+            Bundle args = new Bundle();
+            args.putInt("position", position);
+            myFragment.setArguments(args);
+            return myFragment;
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View layout = inflater.inflate(R.layout.announcements, container,
+                    false);
+            textView = (TextView) layout.findViewById(R.id.textViewFrag);
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+
+                textView.setText("You are on Page number "
+                        + bundle.getInt("position"));
+            }
+
+            return layout;
+        }
+
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
@@ -96,37 +139,6 @@ public class School extends ActionBarActivity {
         @Override
         public int getCount() {
             return tabs.length;
-        }
-
-    }
-
-    public static class MyFragment extends Fragment {
-
-        private TextView textView;
-
-        public static MyFragment getInstance(int position) {
-            MyFragment myFragment = new MyFragment();
-            Bundle args = new Bundle();
-            args.putInt("position", position);
-            myFragment.setArguments(args);
-            return myFragment;
-
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View layout = inflater.inflate(R.layout.announcements, container,
-                    false);
-            textView = (TextView) layout.findViewById(R.id.textViewFrag);
-            Bundle bundle = getArguments();
-            if (bundle != null) {
-
-                textView.setText("You are on Page number "
-                        + bundle.getInt("position"));
-            }
-
-            return layout;
         }
 
     }

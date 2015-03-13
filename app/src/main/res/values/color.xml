@@ -15,5 +15,6 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
-
+    <color name="feed_tab_color">#2CC185</color>
+    <color name="planner_tab_color">#1DA7D2</color>
 </resources>
