@@ -2,6 +2,7 @@ package com.example.urlinq;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.example.adapters.HomeRecyclerDataAdapter;
 import com.example.customviews.CustomSlidingTabLayout;
-import com.example.urlinq.model.HomeRecyclerViewData;
+import com.example.model.HomeRecyclerViewData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +49,13 @@ public class HomeFeed extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 Intent i = new Intent(getActivity(), School.class);
-                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                getActivity().startActivity(i, transitionActivityOptions.toBundle());
+                if (Build.VERSION.SDK_INT >= 21) {
+                    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+                    getActivity().startActivity(i, transitionActivityOptions.toBundle());
+                } else {
+                    getActivity().startActivity(i);
+                }
+
             }
         });
 
@@ -56,8 +63,7 @@ public class HomeFeed extends android.support.v4.app.Fragment {
         (layout.findViewById(R.id.action_b)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_floating_button);
-                v.startAnimation(animation);
+
             }
         });
 
@@ -65,8 +71,7 @@ public class HomeFeed extends android.support.v4.app.Fragment {
         (layout.findViewById(R.id.action_c)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_floating_button);
-                v.startAnimation(animation);
+
             }
         });
         return layout;

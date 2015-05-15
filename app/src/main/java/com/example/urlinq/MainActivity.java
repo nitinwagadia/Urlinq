@@ -3,6 +3,7 @@ package com.example.urlinq;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,8 +26,8 @@ import android.widget.Toast;
 
 import com.example.customviews.CustomSlidingTabLayout;
 import com.example.customviews.CustomViewPager;
-import com.example.urlinq.model.HomeRecyclerViewData;
-import com.example.urlinq.model.RecyclerViewData;
+import com.example.model.HomeRecyclerViewData;
+import com.example.model.RecyclerViewData;
 
 import java.util.List;
 
@@ -43,8 +44,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupWindowAnimations();
-
+        if (Build.VERSION.SDK_INT >= 19) {
+            setupWindowAnimations();
+        }
         searchView = (SearchView) findViewById(R.id.searchView1);
         searchView.setQueryHint("Search for classes,clubs and people");
         int searchPlateId = searchView.getContext().getResources()
@@ -62,7 +64,6 @@ public class MainActivity extends ActionBarActivity {
         //toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.actionbaricon);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Campus Feed");
@@ -81,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
 
         getWindow().setExitTransition(explode);
 
-        Fade fade = new Fade(Visibility.MODE_IN);
+        Fade fade = new Fade(Visibility.MODE_OUT);
         fade.setDuration(500);
         getWindow().setReenterTransition(fade);
     }
@@ -108,6 +109,7 @@ public class MainActivity extends ActionBarActivity {
 
         }
         if (v.getId() == R.id.department)
+            startActivity(new Intent(this, Department.class));
             Toast.makeText(this, "Department", Toast.LENGTH_SHORT).show();
 
 
@@ -123,9 +125,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Toast.makeText(this, "Toolbar Success", Toast.LENGTH_SHORT).show();
@@ -269,7 +268,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            // TODO Auto-generated method stub
+
             int drawable[] = {R.drawable.cat, R.drawable.cow, R.drawable.gorilla, R.drawable.dog};
             Drawable icon = getResources().getDrawable(drawable[position]);
             icon.setBounds(0, 0, 40, 40);

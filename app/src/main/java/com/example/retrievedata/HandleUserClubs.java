@@ -2,8 +2,8 @@ package com.example.retrievedata;
 
 import android.util.Log;
 
+import com.example.model.RecyclerViewData;
 import com.example.urlinq.R;
-import com.example.urlinq.model.RecyclerViewData;
 
 import org.json.JSONObject;
 
@@ -46,7 +46,7 @@ public class HandleUserClubs {
         for (int i = 0; i < 4; i++) {
             RecyclerViewData recyclerViewData = new RecyclerViewData(
                     images[(i * 2) % images.length],
-                    clubsName[i], 0 + "", false);
+                    clubsName[i], 0 + "", false, 1);
             listdata.add(recyclerViewData);
 
             Log.i("Data added is", recyclerViewData.getMiddleString());

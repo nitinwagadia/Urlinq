@@ -1,5 +1,7 @@
 package com.example.urlinq;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,8 +28,14 @@ public class School extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 19)
+            setupWindowAnimations();
+
         setContentView(R.layout.school_layout);
-        setupWindowAnimations();
+        Intent i = getIntent();
+        TextView t = (TextView) findViewById(R.id.schoolName);
+        t.setText(i.getStringExtra("Name"));
+
         toolbar = (Toolbar) findViewById(R.id.schooltoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -50,17 +58,13 @@ public class School extends ActionBarActivity {
     // Animation
     private void setupWindowAnimations() {
         Explode explode = new Explode();
-        explode.setDuration(500);
-
+        explode.setDuration(1000);
         getWindow().setEnterTransition(explode);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
@@ -107,7 +111,7 @@ public class School extends ActionBarActivity {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
-            // TODO Auto-generated constructor stub
+
         }
 
         @Override
@@ -132,7 +136,7 @@ public class School extends ActionBarActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            // TODO Auto-generated method stub
+
             return tabs[position];
         }
 

@@ -24,5 +24,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.urlinq.MainActivity" />
         </activity>
+        <activity android:name=".Department" />
+        <activity android:name=".Classes" />
     </application>
 </manifest>

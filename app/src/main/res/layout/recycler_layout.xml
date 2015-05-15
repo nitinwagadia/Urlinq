@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/NavigationRecyclerViewColor" >
+    android:background="@color/NavigationRecyclerViewColor">
 
     <LinearLayout
         android:id="@+id/headerLayout"
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/header"
@@ -26,21 +27,20 @@
             android:layout_height="1dp"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
-            android:background="#848484" >
-        </View>
+            android:background="#848484"></View>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/itemLayout"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/RecyclerImage"
@@ -54,14 +54,16 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/RecyclerMiddleString"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:ellipsize="end"
                     android:gravity="center"
+                    android:lines="1"
                     android:maxWidth="180dp"
                     android:textColor="#BDBDBD"
                     android:textSize="14sp" />
@@ -85,8 +87,7 @@
             android:layout_marginLeft="56dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
-            android:background="#848484" >
-        </View>
+            android:background="#848484"></View>
     </LinearLayout>
 
 </RelativeLayout>

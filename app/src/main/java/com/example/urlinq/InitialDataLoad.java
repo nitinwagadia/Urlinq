@@ -9,15 +9,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.RecyclerViewData;
 import com.example.retrievedata.HandleUserClasses;
 import com.example.retrievedata.HandleUserClubs;
-import com.example.urlinq.model.RecyclerViewData;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -28,7 +31,15 @@ import java.util.List;
 
 public class InitialDataLoad extends Activity {
     public static List<RecyclerViewData> listdata;
+    static int count = 0;
+    int drawable[] = {R.drawable.background, R.drawable.background1, R.drawable.background2};
+    String universityNames[] = {"New York Univeristy", "Columbia Unversity", "Pace University"};
+    String departmentNames[] = {"Computer Science and Engineering", "Mathematics ", "Finances"};
     Button b;
+    LoadData d;
+    RelativeLayout rl;
+    TextView universityName, departmentName;
+    Button signup, login;
     EditText username, password;
     String userClass = "https://urlinq.com/urlinqyii/api/getUserClasses/?user_id=7&token=12435362";
     String userClubs = "https://urlinq.com/urlinqyii/api/getUserClubs/?user_id=7&token=12435362";
@@ -38,14 +49,43 @@ public class InitialDataLoad extends Activity {
         super.onCreate(savedInstanceState);
         b = (Button) findViewById(R.id.SignIn);
         boolean flag = CheckSharedPreferences();
-        LoadData d = new LoadData();
+        d = new LoadData();
         Toast.makeText(this, flag + "", Toast.LENGTH_SHORT).show();
         if (flag) {
             setContentView(R.layout.initialloadscreen);
             d.execute(userClass, userClubs);
         } else {
-            setContentView(R.layout.intial_data_load);
+            setContentView(R.layout.onboarding_first_page);
+            rl = (RelativeLayout) findViewById(R.id.relativeLayoutOnBoarding);
+            universityName = (TextView) findViewById(R.id.universityName);
+            departmentName = (TextView) findViewById(R.id.departmentName);
+            Log.i("Id of University is", universityName + "");
+            universityName.setText(universityNames[count]);
+            departmentName.setText(departmentNames[count]);
+            signup = (Button) findViewById(R.id.signup);
+            login = (Button) findViewById(R.id.login);
+            changeBackgroundImage(count + 1);
+
+
         }
+    }
+
+    void changeBackgroundImage(int count) {
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                int count = InitialDataLoad.count;
+                count = count % drawable.length;
+                rl.setBackgroundResource(drawable[count]);
+
+                Log.i("uni and Dept  is ", universityNames[count] + " " + departmentNames[count]);
+                universityName.setText(universityNames[count]);
+                departmentName.setText(departmentNames[count]);
+                InitialDataLoad.count = count + 1;
+                Log.i("Count is ", count + "");
+                changeBackgroundImage(count);
+            }
+        }, 1000);
     }
 
     private boolean CheckSharedPreferences() {
@@ -58,6 +98,13 @@ public class InitialDataLoad extends Activity {
             return false;
 
         return true;
+    }
+
+    public void click(View v) {
+        //  Intent i=new Intent(getApplicationContext(),MainActivity.class);
+        d.execute(userClass, userClubs);
+        // startActivity(i);
+        //finish();
     }
 
     public void ButtonClick(View v) {
